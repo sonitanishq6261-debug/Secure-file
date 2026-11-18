@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>SecureFS — Personal File Vault</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="SecureFS home"><span class="brand-mark">S</span><span>secure<span class="brand-accent">fs</span></span></a>
+      <div class="side-label">WORKSPACE</div>
+      <nav aria-label="Main navigation"><a class="nav-item active" href="#vault"><span class="nav-icon">▦</span> My vault <span class="nav-count" id="nav-count">0</span></a></nav>
+      <div class="sidebar-bottom">
+        <div class="security-card"><div class="security-icon">✳</div><strong>Your files stay yours</strong><p>Files are encrypted in this browser before they are saved.</p><span class="secure-pill"><i></i> AES-GCM protected</span></div>
+        <button class="profile" id="logout-button" type="button"><span class="avatar">T</span><span class="profile-copy"><strong>Tanishq</strong><small>Personal vault</small></span><span class="logout-icon" aria-hidden="true">↗</span></button>
+      </div>
+    </aside>
+
+    <main class="main-area" id="vault">
+      <header class="topbar"><div class="breadcrumb">Workspace <span>/</span> <strong>My vault</strong></div><div class="topbar-right"><span class="local-tag"><i></i> Stored in project folder</span><button class="icon-button" id="help-button" aria-label="About this vault" title="About this vault">?</button></div></header>
+      <section class="content">
+        <div class="welcome-row"><div><div class="eyebrow"><span class="eyebrow-line"></span> PRIVATE BY DESIGN</div><h1>Your files, <span>under lock.</span></h1><p class="subtitle">A quieter, safer place to keep the things that matter.</p></div><div class="welcome-lock" aria-hidden="true">⌑</div></div>
+        <section class="summary-grid" aria-label="Vault overview">
+          <article class="summary-card"><div class="summary-top"><span>ENCRYPTED FILES</span><span class="summary-icon violet">▤</span></div><strong id="file-total">0</strong><small>kept in your vault</small></article>
+          <article class="summary-card"><div class="summary-top"><span>VAULT SIZE</span><span class="summary-icon blue">◫</span></div><strong id="vault-size">0 B</strong><small>encrypted on this device</small></article>
+          <article class="summary-card"><div class="summary-top"><span>PROTECTION</span><span class="summary-icon green">✓</span></div><strong class="protection-value">Active</strong><small><span class="live-dot"></span> AES-GCM · PBKDF2</small></article>
+        </section>
+
+        <section class="files-section">
+          <div class="section-heading"><div><h2 id="files-heading">Your files</h2><p id="file-subtitle">Only you can unlock these files.</p></div><label class="search-box"><span>⌕</span><input id="search-input" type="search" placeholder="Find a file..." aria-label="Find a file"></label></div>
+          <div class="folder-toolbar"><label for="folder-select">Save in</label><select id="folder-select" aria-label="Choose a folder"></select><button class="new-folder-button" id="new-folder-button" type="button"><span>＋</span> New folder</button></div>
+          <div class="drop-zone" id="drop-zone" tabindex="0" role="button" aria-label="Choose files to encrypt and upload"><div class="upload-icon">↑</div><div><strong>Drop files here to upload securely</strong><p>or <button class="text-button" id="browse-button" type="button">browse your device</button> <span class="muted">· up to 10 MB each</span></p></div><button class="add-button" id="add-button" type="button"><span>↑</span> Upload files</button><input id="file-input" type="file" multiple hidden></div>
+          <div class="upload-success hidden" id="upload-success" role="status" aria-live="polite"><span class="success-check">✓</span><div><strong>Upload successful</strong><p id="upload-success-details"></p></div><button type="button" id="dismiss-success" aria-label="Dismiss upload message">×</button></div>
+          <div class="file-table-wrap"><table class="file-table"><thead><tr><th>NAME</th><th>SIZE</th><th>ADDED</th><th class="actions-heading">ACTION</th></tr></thead><tbody id="file-list"></tbody></table><div class="empty-state" id="empty-state"><div class="empty-illustration"><span>▤</span><i>✳</i></div><strong>Your vault is ready</strong><p>Add a file to encrypt it and keep it here.</p><button class="empty-add" id="empty-add-button" type="button">＋ Add your first file</button></div></div>
+        </section>
+        <footer class="page-footer"><span>Made for privacy <span class="heart">♥</span></span><span>SecureFS <b>·</b> College project by Tanishq</span></footer>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="auth-modal" aria-hidden="true"><section class="modal auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-title"><div class="modal-brand"><span class="brand-mark">S</span></div><div class="eyebrow centered"><span class="eyebrow-line"></span> YOUR PRIVATE SPACE <span class="eyebrow-line"></span></div><h2 id="auth-title">Unlock your vault</h2><p class="modal-subtitle" id="auth-subtitle">Enter your credentials to open your encrypted files.</p><form id="auth-form"><label class="field-label" for="user-id">User ID</label><input class="field-input" id="user-id" autocomplete="username" required><label class="field-label" for="user-password">Password</label><div class="password-wrap"><input class="field-input" id="user-password" type="password" autocomplete="current-password" required><button type="button" class="show-password" id="show-password">Show</button></div><p class="auth-error" id="auth-error" role="alert"></p><button class="primary-button full-button" type="submit" id="auth-submit">Unlock vault <span>→</span></button></form><div class="demo-note" id="demo-note"><span>✳</span> First-time demo login: <b>Tanishq111</b> / <b>Tanishq@111</b></div><div class="modal-footnote">Your password never leaves this browser.</div></section></div>
+
+  <div class="modal-backdrop" id="about-modal" aria-hidden="true"><section class="modal about-modal" role="dialog" aria-modal="true" aria-labelledby="about-title"><button class="modal-close" id="close-about" aria-label="Close">×</button><div class="modal-brand small-mark"><span class="brand-mark">S</span></div><div class="eyebrow centered"><span class="eyebrow-line"></span> HOW IT WORKS <span class="eyebrow-line"></span></div><h2 id="about-title">Private, right in your browser.</h2><p class="about-copy">SecureFS encrypts each file with AES-GCM before storing it in this browser. PBKDF2 derives the encryption key from your password. Encrypted records are saved in the project folder through its localhost server.</p><div class="about-facts"><div><span>01</span><p><b>Local first</b><br>Encrypted data stays in this browser profile.</p></div><div><span>02</span><p><b>Password derived key</b><br>Your password is not stored as readable text.</p></div><div><span>03</span><p><b>Demo credentials</b><br>The starter login is included in the app code; use sample files only.</p></div></div><div class="demo-warning">College project demo: the initial login is included in the app code. This is not a substitute for a server-managed production security system.</div></section></div>
+  <div class="modal-backdrop" id="folder-modal" aria-hidden="true"><section class="modal folder-modal" role="dialog" aria-modal="true" aria-labelledby="folder-modal-title"><button class="modal-close" id="close-folder-modal" aria-label="Close">×</button><div class="modal-brand"><span class="brand-mark">＋</span></div><div class="eyebrow centered"><span class="eyebrow-line"></span> ORGANIZE YOUR VAULT <span class="eyebrow-line"></span></div><h2 id="folder-modal-title">Create a folder</h2><p class="modal-subtitle">Give your files a place to belong.</p><form id="folder-form"><label class="field-label" for="folder-name">Folder name</label><input class="field-input" id="folder-name" maxlength="40" placeholder="e.g. College work" required><p class="auth-error" id="folder-error" role="alert"></p><button class="primary-button full-button" type="submit">Create folder <span>→</span></button></form></section></div>
+  <div class="modal-backdrop pdf-backdrop" id="pdf-modal" aria-hidden="true"><section class="modal pdf-modal" role="dialog" aria-modal="true" aria-labelledby="pdf-title"><header class="pdf-modal-header"><div><span class="pdf-label">SECURE PDF PREVIEW</span><h2 id="pdf-title">Document</h2></div><button class="modal-close" id="close-pdf-modal" aria-label="Close PDF preview">×</button></header><iframe id="pdf-frame" class="pdf-frame" title="PDF document preview"></iframe></section></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
